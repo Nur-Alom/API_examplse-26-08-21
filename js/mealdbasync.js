@@ -1,7 +1,5 @@
 
-document.getElementById('error-massage').style.display = 'none';
-
-const searchFood = () => {
+const searchFood = async () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     // Clear Data
@@ -9,18 +7,20 @@ const searchFood = () => {
     if (searchText == '') {
         // 
     }
-    else {
-        // Load Data
-        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
-        fetch(url)
-            .then(res => res.json())
-            .then(data => displaySearchResult(data.meals))
-            .catch(error => displayError(error));
+    // Load Data
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        displaySearchResult(data.meals)
     }
-};
+    catch (error) {
+        console.log(error);
+    }
 
-const displayError = error => {
-    document.getElementById('error-massage').style.display = 'block';
+    // fetch(url)
+    //     .then(res => res.json())
+    //     .then(data => displaySearchResult(data.meals))
 }
 
 
@@ -48,17 +48,22 @@ const displaySearchResult = meals => {
     });
 }
 
-const loadMealDetail = mealId => {
+const loadMealDetail = async mealId => {
     // console.log(mealId);
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => displayMealDetail(data.meals[0]));
+    const res = await fetch(url);
+    const data = await res.json();
+    displayMealDetail(data.meals[0]);
+
+    // fetch(url)
+    //     .then(res => res.json())
+    //     .then(data => displayMealDetail(data.meals[0]));
 }
 
 const displayMealDetail = meal => {
-    console.log(meal);
+    // console.log(meal);
     const mealDetails = document.getElementById('meal-details');
+    mealDetails.textContent = '';
     const div = document.createElement('div');
     div.classList.add('card');
     div.innerHTML = `
