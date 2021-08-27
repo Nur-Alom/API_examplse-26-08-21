@@ -1,11 +1,15 @@
 
+#countries{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
 .country{
     background-color: bisque;
     color: red;
     margin: 10px;
     border: 2px solid rebeccapurple;
     border-radius: 15px;
-    padding: 5px;
+    padding: 20px;
 }
 
 
